@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -11,7 +11,7 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import SinglePost from "./pages/ProductDetail";
-import { UserContext, UserProvider } from "../src/useContext/UserContext";
+import { UserProvider } from "../src/useContext/UserContext";
 import Header from "./commom/header";
 import Footer from "./commom/footer";
 import { CartProvider } from "./useContext/CartContext";
@@ -36,13 +36,25 @@ const ConditionalHeaderFooter = ({
   return null;
 };
 
-const PrivateRoute = () => {
-  const { userDetails } = useContext(UserContext);
-  const user = userDetails;
-  return user ? <Outlet /> : <Navigate to="/login" />;
-};
-
 const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if the user is already authenticated
+    const userDetails = localStorage.getItem("userDetails");
+    if (userDetails) {
+      // You might want to validate the user's authentication token or session here
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    // You can show a loading spinner or skeleton screen while checking the authentication state
+    return <div>Loading...</div>;
+  }
+
   return (
     <Router>
       <UserProvider>
@@ -68,6 +80,17 @@ const App = () => {
       </UserProvider>
     </Router>
   );
+};
+
+const PrivateRoute = () => {
+  const userDetails = localStorage.getItem("userDetails");
+  const isAuthenticated = !!userDetails;
+
+  if (isAuthenticated) {
+    return <Outlet />;
+  } else {
+    return <Navigate to="/login" />;
+  }
 };
 
 export default App;

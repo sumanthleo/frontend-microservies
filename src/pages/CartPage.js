@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
 import { CartContext } from "../useContext/CartContext";
@@ -10,7 +10,6 @@ const MainCartContainer = styled(Box)({
 
 const ShoppingBag = styled(Typography)({
   fontSize: "10px",
-  //   marginTop: "10px",
   textDecoration: "underline",
 });
 
@@ -27,22 +26,12 @@ const RemoveCartBtn = styled(Button)({
 
 function Cart() {
   const { cartItems, setCartItems } = useContext(CartContext);
-
   const navigate = useNavigate();
 
-  // const handleQtyChange = (e, item) => {
-  //   const updatedCart = cart.map((cartItem) =>
-  //     cartItem._id === item._id
-  //       ? { ...cartItem, count: e.target.value }
-  //       : cartItem
-  //   );
-  //   localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //   // dispatch({ type: CART_ADD_ITEM, payload: updatedCart });
-  // };
-
-  const checkoutHandler = () => {
-    navigate("/login?redirect=/shipping");
-  };
+  // useEffect hook to store cart items in localStorage
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const incrementQuantity = (item) => {
     const updatedCartItems = [...cartItems];
@@ -73,18 +62,14 @@ function Cart() {
   };
 
   const removeFromCart = (item) => {
-    console.log(item);
-    // Retrieve the cart items from localStorage
-    const storedCartItems = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Filter out the item to be removed
-    const updatedCartItems = storedCartItems.filter(
+    const updatedCartItems = cartItems.filter(
       (cartItem) => cartItem._id !== item._id
     );
-
-    // Update the cart items in localStorage
-    localStorage.setItem("cart", JSON.stringify(updatedCartItems));
     setCartItems(updatedCartItems);
+  };
+
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
   };
 
   return (
@@ -142,7 +127,6 @@ function Cart() {
                   <Grid item container xs={5.5} md={5.5} lg={5.5} mt={1}>
                     <Grid item container direction={"column"}>
                       <Typography fontWeight="bold">{item.title}</Typography>
-
                       <Typography>{item.description}</Typography>
                       <Grid
                         item
@@ -154,17 +138,16 @@ function Cart() {
                         <IconButton
                           disabled={item?.count === 1}
                           color="primary"
-                          aria-label="add to shopping cart"
-                          onClick={(e) => decrementQuantity(item)}
+                          aria-label="remove from cart"
+                          onClick={() => decrementQuantity(item)}
                         >
                           -
                         </IconButton>
                         <Typography>{item?.count || 0}</Typography>
-
                         <IconButton
                           color="primary"
-                          aria-label="add to shopping cart"
-                          onClick={(e) => incrementQuantity(item)}
+                          aria-label="add to cart"
+                          onClick={() => incrementQuantity(item)}
                         >
                           +
                         </IconButton>
@@ -177,7 +160,7 @@ function Cart() {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item container xs={2.5} md={2.5} lg={2.5}>
+                  <Grid item container xs={3} md={2.5} lg={2.5}>
                     <Grid item mt={"80%"}>
                       <RemoveCartBtn
                         variant="outlined"
