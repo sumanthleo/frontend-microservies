@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import SinglePost from "./pages/ProductDetail";
 
-function App() {
+
+const PrivateRoute = ({ children }) => {
+  const authed = localStorage.getItem("token"); // isauth() returns true or false based on localStorage
+
+  return authed ? children : <Navigate to="/login" />;
+};
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
+          <Route
+          path="/:id"
+          element={
+            <PrivateRoute>
+              <SinglePost />
+            </PrivateRoute>
+          }
+        />
+        {/* Add other protected routes for authenticated users */}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
