@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { Grid, TextField, Button, Typography, CircularProgress, Link } from '@mui/material';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+import React, { useState } from "react";
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+  Link,
+} from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
 
 const StyledContainer = styled(Grid)(({ theme }) => ({
   backgroundImage: `url("https://prmceam.ac.in/wp-content/uploads/2015/03/background-learner.jpg")`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  minHeight: '100vh',
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  minHeight: "100vh",
   padding: theme.spacing(4),
 }));
 
@@ -28,45 +35,46 @@ const StyledLoader = styled(CircularProgress)(({ theme }) => ({
 
 const LoginPage = () => {
   const history = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleInputChange = (event, setInputValue) => {
     setInputValue(event.target.value);
-    setError('');
+    setError("");
   };
 
   const handleLogin = async () => {
     try {
       setLoading(true);
-      setError('');
+      setError("");
 
       // Make an API call to your login endpoint
-      const response = await axios.post('https://microservices-gateway.onrender.com/users/login', { email, password });
+      const response = await axios.post(
+        "https://microservices-gateway.onrender.com/users/login",
+        { email, password }
+      );
 
       // Assuming the API response contains a success flag
       if (response.status === 200) {
-        // Store the token in local storage
-        const token = response.data.token;
-        localStorage.setItem('token', token);
+        localStorage.setItem("userDetails", JSON.stringify(response.data));
 
         // Redirect to the home page after successful login
-        history('/');
+        history("/");
       } else {
-        setError('Login failed. Please try again.');
+        setError("Login failed. Please try again.");
       }
     } catch (error) {
-      console.error('Login failed:', error);
-      setError('Login failed. Please try again.');
+      console.error("Login failed:", error);
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleSignupClick = () => {
-    history('/signup');
+    history("/signup");
   };
 
   return (
@@ -100,7 +108,12 @@ const LoginPage = () => {
             />
           </Grid>
           <Grid item>
-            <StyledButton variant="contained" color="primary" onClick={handleLogin} disabled={loading}>
+            <StyledButton
+              variant="contained"
+              color="primary"
+              onClick={handleLogin}
+              disabled={loading}
+            >
               {loading && <StyledLoader size={20} />}
               Login
             </StyledButton>
@@ -114,9 +127,9 @@ const LoginPage = () => {
           )}
           <Grid item>
             <Typography variant="body2" align="center">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <Link onClick={handleSignupClick} color="primary">
-                 Click here
+                Click here
               </Link>
             </Typography>
           </Grid>

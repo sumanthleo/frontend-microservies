@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { styled } from "@mui/system";
-import { Button } from "@mui/material";
-// import { useDispatch } from "react-redux";
+import { Button, Grid, Typography, IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useLocation } from "react-router-dom";
+import { CartContext } from "../useContext/CartContext";
 
-const ContainerPost = styled("div")({
-  marginTop: "3%",
+const ContainerPost = styled(Grid)({
+  marginTop: "1%",
   marginBottom: "5%",
 });
 
-const PostContainer = styled("div")({
+const PostContainer = styled(Grid)({
   display: "flex",
   width: "100%",
   marginTop: "4%",
 });
 
-const PostImg = styled("div")({
+const PostImg = styled(Grid)({
   width: "50%",
   height: "65vh",
   marginLeft: "4%",
@@ -29,69 +30,37 @@ const PostImgBox = styled("img")({
   objectFit: "contain",
 });
 
-const Title = styled("span")({
+const Title = styled(Typography)({
   fontSize: "40px",
   fontWeight: "bold",
-  marginLeft: "3%",
-  marginBottom: 0,
 });
 
-const PostDesc = styled("div")({
-  width: "50%",
+const PostDesc = styled(Grid)({
+  width: "43%",
+  marginLeft: "2%",
   display: "flex",
   flexDirection: "column",
 });
 
-const Desc = styled("p")({
-  fontSize: "1.5rem",
-  marginLeft: "3%",
-  marginBottom: 0,
-  marginTop: "-10px",
+const Desc = styled(Typography)({
+  fontSize: "1rem",
   fontStyle: "italic",
+  color: "gray",
 });
 
-const PriceTag = styled("span")({
+const PriceTag = styled(Typography)({
   fontSize: "1.5rem",
-  marginBottom: 0,
-  marginTop: "-10px",
+  marginTop: "18%",
 });
 
-const Price = styled("div")({
-  marginLeft: "3%",
-  marginTop: "-10px",
-  fontWeight: "bold",
-});
-
-// const Filters = styled("div")({
-//   margin: "3%",
-//   fontSize: "30px",
-//   fontStyle: "italic",
-// });
-
-// const ColorSelect = styled(Select)({
-//   width: "25%",
-//   padding: "10px",
-//   marginLeft: "2%",
-//   fontSize: "20px",
-//   fontWeight: 600,
-// });
-
-// const SizeSelect = styled(Select)({
-//   width: "25%",
-//   padding: "10px",
-//   marginLeft: "2%",
-//   fontSize: "20px",
-//   fontWeight: 600,
-// });
-
-const AddToCart = styled("div")({
+const AddToCart = styled(Grid)({
   display: "flex",
-  margin: "3%",
+  marginTop: "2%",
+  gap: "30px",
 });
 
 const AddToCartButton = styled(Button)({
   padding: "10px 30px",
-  marginLeft: "35%",
   border: "none",
   fontWeight: 600,
   fontSize: "15px",
@@ -99,25 +68,17 @@ const AddToCartButton = styled(Button)({
 });
 
 const GoToCartButton = styled(Button)({
-  float: "right",
-  marginRight: "10%",
-  padding: "5px 50px",
+  padding: "10px 30px",
   border: "none",
   fontWeight: 600,
   fontSize: "15px",
   cursor: "pointer",
-  borderRadius: "16px",
-  backgroundColor: "rgb(230, 172, 66)",
-  color: "blue",
 });
 
 function SinglePost() {
   const location = useLocation().pathname.split("/")[1];
   const [product, setProduct] = useState({});
-  // const [color, setColor] = useState();
-  // const [size, setSize] = useState();
-  // const [quantity, setQuantity] = useState(1);
-//   const dispatch = useDispatch();
+  const { addItemToCart } = useContext(CartContext);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -130,19 +91,23 @@ function SinglePost() {
     getProducts();
   }, [location]);
 
-  const handleClick = (e) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleAddToCartClick = (e) => {
     e.preventDefault();
-    // dispatch(addToCart(product));
+    addItemToCart(product);
   };
 
   return (
     <ContainerPost>
-      <Title>{product.category}</Title>
-      <Link to={"/cart"}>
-        <GoToCartButton style={{ marginTop: "10px" }}>
-          CHECK OUT CART
-        </GoToCartButton>
-      </Link>
+      <Grid container display={"flex"} direction={"row"} gap={3} ml={1.5}>
+        <IconButton component={Link} to="/" aria-label="Back">
+          <ArrowBackIcon />
+        </IconButton>
+        <Title>{product.title}</Title>
+      </Grid>
       <PostContainer>
         <PostImg>
           <PostImgBox src={product.image} alt="" />
@@ -150,15 +115,16 @@ function SinglePost() {
         <PostDesc>
           <Title className="title">{product.title}</Title>
           <Desc>{product.description}</Desc>
-          <Price>
-            <PriceTag>₹</PriceTag>
-            <PriceTag>{product.price}</PriceTag>
-          </Price>
-          
+          <PriceTag>₹ {product.price}</PriceTag>
           <AddToCart>
-            <AddToCartButton variant="contained" onClick={handleClick}>
+            <AddToCartButton variant="contained" onClick={handleAddToCartClick}>
               ADD TO CART
             </AddToCartButton>
+            <Link to={"/cart"}>
+              <GoToCartButton variant="contained">
+                CHECK OUT CART
+              </GoToCartButton>
+            </Link>
           </AddToCart>
         </PostDesc>
       </PostContainer>
