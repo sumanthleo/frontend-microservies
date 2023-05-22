@@ -16,6 +16,7 @@ import Header from "./commom/header";
 import Footer from "./commom/footer";
 import { CartProvider } from "./useContext/CartContext";
 import Cart from "./pages/CartPage";
+import ShippingPage from "./pages/ShippingPage";
 
 const ConditionalHeaderFooter = ({
   shouldDisplayHeader,
@@ -40,18 +41,13 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if the user is already authenticated
-    const userDetails = localStorage.getItem("userDetails");
-    if (userDetails) {
-      // You might want to validate the user's authentication token or session here
+    // Simulating an asynchronous operation
+    setTimeout(() => {
       setLoading(false);
-    } else {
-      setLoading(false);
-    }
+    }, 2000);
   }, []);
 
   if (loading) {
-    // You can show a loading spinner or skeleton screen while checking the authentication state
     return <div>Loading...</div>;
   }
 
@@ -70,6 +66,7 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/:id" element={<SinglePost />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/shipping" element={<ShippingPage />} />
             </Route>
           </Routes>
           <ConditionalHeaderFooter

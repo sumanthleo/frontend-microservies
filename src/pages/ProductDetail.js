@@ -6,22 +6,34 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useLocation } from "react-router-dom";
 import { CartContext } from "../useContext/CartContext";
 
-const ContainerPost = styled(Grid)({
+const ContainerPost = styled(Grid)(({ theme }) => ({
   marginTop: "1%",
   marginBottom: "5%",
-});
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "2%",
+  },
+}));
 
-const PostContainer = styled(Grid)({
+const PostContainer = styled(Grid)(({ theme }) => ({
   display: "flex",
   width: "100%",
   marginTop: "4%",
-});
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    marginTop: "2%",
+  },
+}));
 
-const PostImg = styled(Grid)({
+const PostImg = styled(Grid)(({ theme }) => ({
   width: "50%",
   height: "65vh",
   marginLeft: "4%",
-});
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    height: "auto",
+    marginBottom: "3%",
+  },
+}));
 
 const PostImgBox = styled("img")({
   width: "100%",
@@ -35,12 +47,16 @@ const Title = styled(Typography)({
   fontWeight: "bold",
 });
 
-const PostDesc = styled(Grid)({
+const PostDesc = styled(Grid)(({ theme }) => ({
   width: "43%",
   marginLeft: "2%",
   display: "flex",
   flexDirection: "column",
-});
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+    marginLeft: 0,
+  },
+}));
 
 const Desc = styled(Typography)({
   fontSize: "1rem",
@@ -102,17 +118,17 @@ function SinglePost() {
 
   return (
     <ContainerPost>
-      <Grid container display={"flex"} direction={"row"} gap={3} ml={1.5}>
+      <Grid container display={"flex"} alignItems="center" gap={3} ml={1.5}>
         <IconButton component={Link} to="/" aria-label="Back">
           <ArrowBackIcon />
         </IconButton>
         <Title>{product.title}</Title>
       </Grid>
       <PostContainer>
-        <PostImg>
+        <PostImg item>
           <PostImgBox src={product.image} alt="" />
         </PostImg>
-        <PostDesc>
+        <PostDesc item>
           <Title className="title">{product.title}</Title>
           <Desc>{product.description}</Desc>
           <PriceTag>₹ {product.price}</PriceTag>

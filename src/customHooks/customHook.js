@@ -23,7 +23,7 @@ const useLongPollingHook = (url, delay = 9990) => {
       fetchApi();
     };
     startPolling();
-    console.log(count);
+    console.log(count, "custom hooks");
     if (count === 200) {
       timeoutId = setInterval(startPolling, delay);
     }
