@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { styled } from "@mui/system";
-import { Button, Select, MenuItem } from "@mui/material";
+import { Button, Select } from "@mui/material";
 // import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
@@ -62,27 +62,27 @@ const Price = styled("div")({
   fontWeight: "bold",
 });
 
-const Filters = styled("div")({
-  margin: "3%",
-  fontSize: "30px",
-  fontStyle: "italic",
-});
+// const Filters = styled("div")({
+//   margin: "3%",
+//   fontSize: "30px",
+//   fontStyle: "italic",
+// });
 
-const ColorSelect = styled(Select)({
-  width: "25%",
-  padding: "10px",
-  marginLeft: "2%",
-  fontSize: "20px",
-  fontWeight: 600,
-});
+// const ColorSelect = styled(Select)({
+//   width: "25%",
+//   padding: "10px",
+//   marginLeft: "2%",
+//   fontSize: "20px",
+//   fontWeight: 600,
+// });
 
-const SizeSelect = styled(Select)({
-  width: "25%",
-  padding: "10px",
-  marginLeft: "2%",
-  fontSize: "20px",
-  fontWeight: 600,
-});
+// const SizeSelect = styled(Select)({
+//   width: "25%",
+//   padding: "10px",
+//   marginLeft: "2%",
+//   fontSize: "20px",
+//   fontWeight: 600,
+// });
 
 const AddToCart = styled("div")({
   display: "flex",
@@ -114,9 +114,9 @@ const GoToCartButton = styled(Button)({
 function SinglePost() {
   const location = useLocation().pathname.split("/")[1];
   const [product, setProduct] = useState({});
-  const [color, setColor] = useState();
-  const [size, setSize] = useState();
-  const [quantity, setQuantity] = useState(1);
+  // const [color, setColor] = useState();
+  // const [size, setSize] = useState();
+  // const [quantity, setQuantity] = useState(1);
 //   const dispatch = useDispatch();
 
   useEffect(() => {

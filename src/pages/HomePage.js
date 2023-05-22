@@ -25,7 +25,7 @@ alignItems:"center"
 
 function HomePage({ cat = false, filters, sort }) {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  // const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const getProducts = async () => {

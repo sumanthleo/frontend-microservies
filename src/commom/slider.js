@@ -3,9 +3,7 @@ import { styled } from "@mui/system";
 import { Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 
-const SliderContainer = styled("div")`
-  /* SliderContainer styles */
-`;
+
 
 const Newsletter = styled(Grid)`
   text-align: center;
