@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { styled } from "@mui/system";
-// import axios from "axios";
 import Product from "../commom/product";
-import { Grid, Typography } from "@mui/material";
-import Silder from "../commom/slider";
+import { Grid, Typography, Skeleton } from "@mui/material";
+import Slider from "../commom/slider";
 import useLongPollingHook from "../customHooks/customHook";
 
 const StyledProductContainer = styled(Grid)(({ theme }) => ({
@@ -21,10 +20,7 @@ const StyledProductItems = styled(Grid)(({ theme }) => ({
 }));
 
 function HomePage({ cat = false, filters, sort }) {
-  // const [products, setProducts] = useState([]);
-  // const [filteredProducts, setFilteredProducts] = useState([]);
-
-  const { data } = useLongPollingHook(
+  const { data, loading } = useLongPollingHook(
     "https://microservices-gateway.onrender.com/products"
   );
 
@@ -34,18 +30,28 @@ function HomePage({ cat = false, filters, sort }) {
 
   return (
     <>
-      <Silder />
+      <Slider />
       <StyledProductContainer m={1}>
         <StyledHeadingText variant="h6">
-          TRENDING PRODUCTS : {cat}
+          TRENDING PRODUCTS: {cat}
         </StyledHeadingText>
-        <StyledProductItems item container spacing={2}>
-          {data?.map((item) => (
-            <Grid item key={item._id} xs={12} sm={6} md={4} lg={3}>
-              <Product item={item} />
-            </Grid>
-          ))}
-        </StyledProductItems>
+        {loading ? (
+          <StyledProductItems item container spacing={2}>
+            {Array.from(Array(5).keys()).map((index) => (
+              <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                <Skeleton variant="rectangular" height={300} />
+              </Grid>
+            ))}
+          </StyledProductItems>
+        ) : (
+          <StyledProductItems item container spacing={2}>
+            {data?.map((item) => (
+              <Grid item key={item._id} xs={12} sm={6} md={4} lg={3}>
+                <Product item={item} />
+              </Grid>
+            ))}
+          </StyledProductItems>
+        )}
       </StyledProductContainer>
     </>
   );

@@ -112,9 +112,8 @@ function Cart() {
                   key={item._id}
                   py={1}
                   sx={{
-                    width: "80%",
                     height: "200px",
-                    margin: "20px",
+                    margin: "10px",
                     boxShadow: "2px 2px 2px 2px lightblue",
                     borderRadius: "10px",
                   }}
@@ -124,7 +123,7 @@ function Cart() {
                       <CartImage src={item.image} alt="" />
                     </Grid>
                   </Grid>
-                  <Grid item container xs={5.5} md={5.5} lg={5.5} mt={1}>
+                  <Grid item container xs={4} md={5.5} lg={5.5} mt={1}>
                     <Grid item container direction={"column"}>
                       <Typography fontWeight="bold">{item.title}</Typography>
                       <Typography>{item.description}</Typography>
@@ -152,7 +151,7 @@ function Cart() {
                           +
                         </IconButton>
                       </Grid>
-                      <Grid item mt={4.5}>
+                      <Grid item mt={4}>
                         <Typography>Item Price: {item.price}/-</Typography>
                         <Typography fontWeight="bold">
                           Total: {item.price * item.count}/-
@@ -160,8 +159,8 @@ function Cart() {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item container xs={3} md={2.5} lg={2.5}>
-                    <Grid item mt={"80%"}>
+                  <Grid item container xs={4} md={2.5} lg={2.5}>
+                    <Grid item mt={"50%"}>
                       <RemoveCartBtn
                         variant="outlined"
                         color="error"

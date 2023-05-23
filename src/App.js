@@ -17,6 +17,7 @@ import Footer from "./commom/footer";
 import { CartProvider } from "./useContext/CartContext";
 import Cart from "./pages/CartPage";
 import ShippingPage from "./pages/ShippingPage";
+import PaymentPage from "./pages/PaymentPage";
 
 const ConditionalHeaderFooter = ({
   shouldDisplayHeader,
@@ -67,6 +68,7 @@ const App = () => {
               <Route path="/:id" element={<SinglePost />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/shipping" element={<ShippingPage />} />
+              <Route path="/payment" element={<PaymentPage />} />
             </Route>
           </Routes>
           <ConditionalHeaderFooter
