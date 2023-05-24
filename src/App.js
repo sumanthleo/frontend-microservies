@@ -18,6 +18,7 @@ import { CartProvider } from "./useContext/CartContext";
 import Cart from "./pages/CartPage";
 import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
+import PlaceorderPage from "./pages/PlaceorderPage";
 
 const ConditionalHeaderFooter = ({
   shouldDisplayHeader,
@@ -69,6 +70,7 @@ const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/shipping" element={<ShippingPage />} />
               <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/placeorder" element={<PlaceorderPage />} />
             </Route>
           </Routes>
           <ConditionalHeaderFooter
